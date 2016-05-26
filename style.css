@@ -1,0 +1,19 @@
+#game_div{
+    text-align: center;
+}
+.title{
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Helvetica Neue";
+  color:#34495E;
+  letter-spacing: 3px;
+}
+canvas{
+  border:4px solid #CCC;
+  border-radius:2px;
+}
+body {
+    background:url("assets/background.png")no-repeat center center;
+    background-size:cover;
+    height: auto;
+}
