@@ -6,8 +6,8 @@
   context = canvas.getContext('2d');
 
   //Constante du jeux qui ne changeront jamais
-  var nb_ligne=1,
-  nb_brick_ligne=1,
+  var nb_ligne=6,
+  nb_brick_ligne=9,
   brick_width=45,
   brick_height=15,
   space_brick=5,
@@ -28,7 +28,9 @@
   aGagne=0,
   bricks=(space_brick+brick_height)*nb_ligne,
   tab_brick=new Array(nb_ligne),
+  point=0,
   PartieEnCours=true;
+
 
   function Start(){
     PartieEnCours=false;
@@ -42,11 +44,12 @@
     //On appele la fonction pour generer les briques
     creation(context,nb_ligne,nb_brick_ligne,brick_width,brick_height,space_brick);
 
-    var interval = setInterval(Game,10);
-    window.document.onkeydown = checkDepla;
+    return setInterval(Game,10);
 
   }
 
+  draw();
+      window.document.onkeydown = checkDepla;
   if(PartieEnCours==true){
     window.addEventListener('keydown',function(e){
     if(e.which==32){
@@ -56,22 +59,25 @@
   },false)
   }
 
-  function Game(){
+
+
+  function draw(){
     context.clearRect(0,0,airzone_width,airzone_height);
     aGagne = 1;
     context.fillStyle="#34495e";
     context.fillRect(0,0,airzone_width,airzone_height);
     context.fill();
-    // Réaffichage des briques
-    for (var i=0; i<tab_brick.length;i++){
-      context.fillStyle=couleur[i];
-      for(var j=0; j<tab_brick[i].length;j++){
-        if(tab_brick[i][j]==1){
-          context.fillRect((j*(brick_width+space_brick)),(i*(brick_height+space_brick)),brick_width,brick_height);
-          aGagne=0;
-        }
-      }
-    }
+    context.font = "16px Calibri,Geneva,Arial";
+    context.fillStyle="white";
+    context.fillText("Score"+" "+point,20,350);
+  }
+
+
+
+  function Game(){
+    PartieEnCours=true;
+    draw();
+    Recreation();
     // Si aGagne=0 donc qu'il y a plus de brick dans la tableau on affiche la fonction gagne()
     if ( aGagne ){
       gagne();
@@ -82,6 +88,30 @@
     Colision();
     Balle();
   }
+  // Fonction de gameOver
+  function perdu(){
+    PartieEnCours=true;
+    clearInterval(Game,10);
+    context.font="30px Helvetica Neue";
+    context.textAlign="center";
+    context.fillText("Ctrl + R",airzone_width/2,airzone_height/1.5);
+    context.fillText("Game Over",airzone_width/2,airzone_height/2);
+    context.fillText("Score"+" "+point,airzone_width/2,airzone_height/2.5);
+  }
+
+
+
+  function gagne(){
+    PartieEncours=true;
+    clearInterval(Game);
+    context.font="30px Helvetica Neue";
+    context.textAlign="center";
+    context.fillText("Win !",airzone_width/2,airzone_height/2);
+    aGagne=1;
+  }
+
+
+
 
   function mainLogic(){
 
@@ -96,6 +126,7 @@
       perdu();
     }
     else {
+      // On fait bouger la balle
       if ( (balleY + dirBalleY * balle_vitesse) <  0){
         dirBalleY = 1.2;
       }
@@ -109,6 +140,9 @@
     balleX+=dirBalleX*balle_vitesse;
     balleY+=dirBalleY*balle_vitesse;
   }
+
+
+
   function Balle(){
     //Creation de la balle
     context.fillStyle="white";
@@ -129,27 +163,13 @@
         tab_brick[ligneY][ligneX]=0;
         // console.log(tab_brick[ligneY][ligneX]);
         dirBalleY=1.5;
+        point=point +1;
+        console.log(point);
       }
     }
   }
 
-  // Fonction de gameOver
-  function perdu(){
-    //PartieEnCours=true;
-    clearInterval(Game);
-    context.font="30px Helvetica Neue";
-    context.textAlign="center";
-    context.fillText("Game Over",airzone_width/2,airzone_height/2);
-  }
 
-  function gagne(){
-    //PartieEncours=true;
-    clearInterval(Game);
-    context.font="30px Helvetica Neue";
-    context.textAlign="center";
-    context.fillText("Win !",airzone_width/2,airzone_height/2);
-    aGagne=1;
-  }
 
   // Fonction qui va créer des bricks
   function creation(ctx, nb_ligne, nb_brick_ligne, width, height, space) {
@@ -168,6 +188,19 @@
     }//endfor i
 
   }
+
+function Recreation(){
+  // Réaffichage des briques
+  for (var i=0; i<tab_brick.length;i++){
+    context.fillStyle=couleur[i];
+    for(var j=0; j<tab_brick[i].length;j++){
+      if(tab_brick[i][j]==1){
+        context.fillRect((j*(brick_width+space_brick)),(i*(brick_height+space_brick)),brick_width,brick_height);
+        aGagne=0;
+      }
+    }
+  }
+}
 
   function checkDepla(e) {
     // Flêche de droite préssée
