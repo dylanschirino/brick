@@ -1,15 +1,22 @@
+@font-face {
+  font-family: GameFont;
+  src: url("assets/dpcomic/dpcomic.ttf");
+}
+
 #game_div{
     text-align: center;
 }
 .title{
   text-align: center;
   text-transform: uppercase;
-  font-family: "Helvetica Neue";
+  font-family: "GameFont";
+  font-size:3em;
   color:#34495E;
   letter-spacing: 3px;
 }
 canvas{
   border:4px solid #CCC;
+  font-family: "GameFont";
   border-radius:2px;
 }
 body {

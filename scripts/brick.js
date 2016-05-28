@@ -33,16 +33,19 @@
 
     };
 
-
     draw = function() {
-        context.clearRect( 0, 0, airzonewidth, airzoneheight );
-        aGagne = 1;
         context.fillStyle = "#34495e";
         context.fillRect( 0, 0, airzonewidth, airzoneheight );
         context.fill();
-        context.font = "16px Calibri,Geneva,Arial";
-        context.fillStyle = "white";
-        context.fillText( "Score " + point, 20, 350 );
+        context.font = "40px GameFont";
+        context.fillStyle = "#1abc9c";
+        context.textAlign = "center";
+        context.fillText( "BRICK COLISION", airzonewidth / 2, 80 );
+        context.fillText( "Appuyez sur ESPACE ", airzonewidth / 2, airzoneheight / 3 );
+        context.fillText( "pour commencer ", airzonewidth / 2, airzoneheight / 2 );
+        context.fillText( "----------", airzonewidth / 2, 300 );
+        context.fillText( "----------", airzonewidth / 2, 350 );
+
     };
 
 
@@ -62,7 +65,7 @@
     gagne = function() {
         PartieEncours = true;
         clearInterval( Game );
-        context.font = "30px Helvetica Neue";
+        context.font = "30px GameFont";
         context.textAlign = "center";
         context.fillText( "Win !", airzonewidth / 2, airzoneheight / 2 );
         aGagne = 1;
@@ -70,9 +73,9 @@
 
     // Fonction de gameOver
     perdu = function() {
-        PartieEnCours = true;
-        clearInterval( Game, 10 );
-        context.font = "30px Helvetica Neue";
+        PartieEnCours = false;
+        setInterval( Game, 10 );
+        context.font = "30px GameFont";
         context.textAlign = "center";
         context.fillText( "Ctrl + R", airzonewidth / 2, airzoneheight / 1.5 );
         context.fillText( "Game Over", airzonewidth / 2, airzoneheight / 2 );
@@ -129,6 +132,14 @@
     Game = function() {
         PartieEnCours = true;
         draw();
+        // On efface l'écran de demarrage
+        context.clearRect( 0, 0, airzonewidth, airzoneheight );
+        context.fillStyle = "#34495e";
+        context.fillRect( 0, 0, airzonewidth, airzoneheight );
+        context.fill();
+        context.fillStyle = "white";
+        context.font = "16px Calibri,Geneva,Arial";
+        context.fillText( "Score " + point, 50, 350 );
         recreation();
         // Si aGagne=0 donc qu'il y a plus de brick dans la tableau on affiche la fonction gagne()
         if ( aGagne ) {
