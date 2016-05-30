@@ -51,7 +51,7 @@
 
 
     recreation = function() {
-      aGagne = 1;
+        aGagne = 1;
       // Réaffichage des briques
         for ( i = 0 ; i < tabbrick.length ; i++ ) {
             context.fillStyle = couleur [ i ];
@@ -62,7 +62,9 @@
                 }
             }
         }
-        if ( aGagne ) gagne();
+        if ( aGagne ) {
+            gagne();
+        }
     };
 
     gagne = function() {
@@ -169,7 +171,7 @@
     // On appele la fonction pour generer les briques
         creation( context, nbLigne, nbBrickLigne, brickwidth, brickheight, spacebrick );
 
-        MyTimer = setInterval( Game, 10);
+        MyTimer = setInterval( Game, 10 );
 
         return MyTimer;
 
