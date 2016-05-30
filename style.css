@@ -19,8 +19,6 @@ canvas{
   font-family: "GameFont";
   border-radius:2px;
 }
-body {
-    background:url("assets/background.png")no-repeat center center;
-    background-size:cover;
-    height: auto;
+html {
+    background:url("assets/background.png")repeat center center;
 }

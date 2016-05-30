@@ -70,8 +70,8 @@
     gagne = function() {
         PartieEnCours = true;
         window.clearInterval( MyTimer );
-        context.font = "30px GameFont";
         context.textAlign = "center";
+        context.font = "30px GameFont";
         context.fillText( "Bravo ! Vous avez GAGNER !", airzonewidth / 2, airzoneheight / 2 );
         context.fillText( "Score " + point, airzonewidth / 2, airzoneheight / 2.5 );
         dirBalleX = 0;
