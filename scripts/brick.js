@@ -12,7 +12,7 @@
         bricks = ( spacebrick + brickheight ) * nbLigne,
         tabbrick = new Array( nbLigne ),
         point = 0, PartieEnCours = true,
-        start, creation, recreation, Game, draw, gagne, mainLogic, perdu, balle, colision, checkDepla, i, j, LigneY, LigneX;
+        start, creation, recreation, Game, draw, gagne, mainLogic, perdu, balle, colision, checkDepla, i, j, LigneY, LigneX, MyTimer;
 
 
     // Fonction qui va créer des bricks
@@ -64,7 +64,7 @@
 
     gagne = function() {
         PartieEncours = true;
-        clearInterval( Game );
+        window.clearInterval( MyTimer );
         context.font = "30px GameFont";
         context.textAlign = "center";
         context.fillText( "Win !", airzonewidth / 2, airzoneheight / 2 );
@@ -73,13 +73,15 @@
 
     // Fonction de gameOver
     perdu = function() {
-        PartieEnCours = false;
-        setInterval( Game, 10 );
+        PartieEnCours = true;
+        window.clearInterval( MyTimer );
         context.font = "30px GameFont";
         context.textAlign = "center";
-        context.fillText( "Ctrl + R", airzonewidth / 2, airzoneheight / 1.5 );
         context.fillText( "Game Over", airzonewidth / 2, airzoneheight / 2 );
         context.fillText( "Score " + point, airzonewidth / 2, airzoneheight / 2.5 );
+        dirBalleX = 0;
+        dirBalleY = 0;
+        ballevitesse = 0;
     };
 
 
@@ -130,7 +132,7 @@
 
 
     Game = function() {
-        PartieEnCours = true;
+        PartieEnCours = false;
         draw();
         // On efface l'écran de demarrage
         context.clearRect( 0, 0, airzonewidth, airzoneheight );
@@ -150,8 +152,8 @@
         mainLogic();
         colision();
         balle();
+        console.log(PartieEnCours);
     };
-
 
     start = function() {
         PartieEnCours = false;
@@ -167,8 +169,8 @@
 
     // On appele la fonction pour generer les briques
         creation( context, nbLigne, nbBrickLigne, brickwidth, brickheight, spacebrick );
-
-        return setInterval( Game, 10 );
+        MyTimer = setInterval( Game, 10);
+        return MyTimer;
 
     };
 
@@ -192,9 +194,16 @@
 
     window.document.onkeydown = checkDepla;
     if ( PartieEnCours === true ) {
-        window.addEventListener( "keydown", function( e ) {
+        window.addEventListener( "keyup", function( e ) {
             if ( e.which === 32 ) {
+                window.clearInterval( MyTimer );
                 start();
+                balleX = 100;
+                balleY = 250;
+                dirBalleX = 1;
+                dirBalleY = -1;
+                ballevitesse = 1;
+                point = 0;
             }
         }, false );
     }
