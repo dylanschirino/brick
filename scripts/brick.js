@@ -33,12 +33,13 @@
 
     };
 
+
     draw = function() {
         context.fillStyle = "#34495e";
         context.fillRect( 0, 0, airzonewidth, airzoneheight );
         context.fill();
-        context.font = "40px GameFont";
         context.fillStyle = "#1abc9c";
+        context.font = "30px GameFont";
         context.textAlign = "center";
         context.fillText( "BRICK COLISION", airzonewidth / 2, 80 );
         context.fillText( "Appuyez sur ESPACE ", airzonewidth / 2, airzoneheight / 3 );
@@ -50,33 +51,38 @@
 
 
     recreation = function() {
+      aGagne = 1;
       // Réaffichage des briques
         for ( i = 0 ; i < tabbrick.length ; i++ ) {
             context.fillStyle = couleur [ i ];
             for ( j = 0; j < tabbrick [ i ].length ; j++ ) {
                 if ( tabbrick [ i ][ j ] === 1 ) {
                     context.fillRect( ( j * ( brickwidth + spacebrick ) ), ( i * ( brickheight + spacebrick ) ), brickwidth, brickheight );
-                    aGagne = 0;
+                    aGagne = 0; // Si aGagne = O c'est qu'il reste toujours une brique
                 }
             }
         }
+        if ( aGagne ) gagne();
     };
 
     gagne = function() {
-        PartieEncours = true;
+        PartieEnCours = true;
         window.clearInterval( MyTimer );
         context.font = "30px GameFont";
         context.textAlign = "center";
-        context.fillText( "Win !", airzonewidth / 2, airzoneheight / 2 );
-        aGagne = 1;
+        context.fillText( "Bravo ! Vous avez GAGNER !", airzonewidth / 2, airzoneheight / 2 );
+        context.fillText( "Score " + point, airzonewidth / 2, airzoneheight / 2.5 );
+        dirBalleX = 0;
+        dirBalleY = 0;
+        ballevitesse = 0;
     };
 
     // Fonction de gameOver
     perdu = function() {
         PartieEnCours = true;
         window.clearInterval( MyTimer );
-        context.font = "30px GameFont";
         context.textAlign = "center";
+        context.font = "30px GameFont";
         context.fillText( "Game Over", airzonewidth / 2, airzoneheight / 2 );
         context.fillText( "Score " + point, airzonewidth / 2, airzoneheight / 2.5 );
         dirBalleX = 0;
@@ -130,7 +136,6 @@
         }
     };
 
-
     Game = function() {
         PartieEnCours = false;
         draw();
@@ -143,33 +148,29 @@
         context.font = "16px Calibri,Geneva,Arial";
         context.fillText( "Score " + point, 50, 350 );
         recreation();
-        // Si aGagne=0 donc qu'il y a plus de brick dans la tableau on affiche la fonction gagne()
-        if ( aGagne ) {
-            gagne();
-        }
         context.fillStyle = "white";
         context.fillRect( barreX, barreY, barrewidth, barreheight );
         mainLogic();
         colision();
         balle();
-        console.log(PartieEnCours);
+        // console.log(PartieEnCours);
     };
 
     start = function() {
         PartieEnCours = false;
 
         // On place la barre au centre du jeu
-
         barreX = ( airzonewidth / 2 ) - ( barrewidth / 2 );
         // en bas
-
         barreY = ( airzoneheight - barreheight );
         context.fillStyle = "white";
         context.fillRect( barreX, barreY, barrewidth, barreheight );
 
     // On appele la fonction pour generer les briques
         creation( context, nbLigne, nbBrickLigne, brickwidth, brickheight, spacebrick );
+
         MyTimer = setInterval( Game, 10);
+
         return MyTimer;
 
     };
@@ -200,9 +201,9 @@
                 start();
                 balleX = 100;
                 balleY = 250;
-                dirBalleX = 1;
-                dirBalleY = -1;
-                ballevitesse = 1;
+                dirBalleX = 1.2;
+                dirBalleY = -1.2;
+                ballevitesse = 2;
                 point = 0;
             }
         }, false );
