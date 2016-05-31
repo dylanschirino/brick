@@ -85,6 +85,7 @@
         window.clearInterval( MyTimer );
         context.textAlign = "center";
         context.font = "30px GameFont";
+        context.fillText( "Espace pour recommencer", airzonewidth / 2, airzoneheight / 1.5 );
         context.fillText( "Game Over", airzonewidth / 2, airzoneheight / 2 );
         context.fillText( "Score " + point, airzonewidth / 2, airzoneheight / 2.5 );
         dirBalleX = 0;
